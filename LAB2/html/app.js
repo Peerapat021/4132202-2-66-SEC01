@@ -12,7 +12,7 @@ console.log(data.adress[2]);
 
 document.getElementById("msg").innerHTML = data.adress[2];
 
-let long = data.name + "  " + x[0];
+let long = data.name + " : " + x[0];
 
 long = `${data.name} :
             ${x[1]}; `
