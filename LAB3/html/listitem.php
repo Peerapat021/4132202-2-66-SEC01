@@ -1,16 +1,16 @@
 <?php
 include "condb.php";
 
-$sql = "SELECT * FROM tb_member";
+$sql = "SELECT * FROM tb_member ";
 $result = mysqli_query($conn, $sql);
 
-//var_dump($result);
+// var_dump($result);
 ?>
 
+<button id="btn_add" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">+ Add</button>
 
-<button id="btn_add"> + add</button>
 
-<table>
+<table class="table table-striped table-hover">
     <thead>
         <tr>
             <th>ID</th>
@@ -19,22 +19,21 @@ $result = mysqli_query($conn, $sql);
             <th></th>
         </tr>
     </thead>
-
-    <thead>
+    <tbody>
         <?php
         while ($row = mysqli_fetch_assoc($result)) {
         ?>
             <tr>
-                <td> <?= $row["id_member"] ?></td>
-                <td> <?= $row["name"] ?></td>
-                <td> <?= $row["id_province"] ?></td>
-                <td><button class="btn_del" data-id="<?= $row["id_member"] ?>"> DEL</button> </td>
+                <td><?= $row["id_member"] ?></td>
+                <td><?= $row["name"] ?></td>
+                <td><?= $row["id_province"] ?></td>
+                <td><button class="btn_del" data-id="<?= $row["id_member"] ?>"> DEL </button></td>
+                <td><button class="btn_edt" data-id="<?= $row["id_member"] ?>" data-bs-toggle="modal" data-bs-target="#staticBackdrop"> Edit </button></td>
             </tr>
         <?php
         }
         ?>
-
-    </thead>
+    </tbody>
 </table>
 
 <script>
@@ -51,15 +50,26 @@ $result = mysqli_query($conn, $sql);
             success: function(res) {
                 console.log(res);
                 if (res == "error")
-                    alert("can't delete item.");
+                    alert("con't delete item.");
                 else
                     $("#div_item").load("/listitem.php");
-
             }
         });
     });
 
     $("#btn_add").click(function() {
-        $("#div_item").load("/addform.php");
+        //$("#div_item").load("/addform.php");
+        $("#staticBackdropLabel").text("Add Item");
+        $(".modal-body").load("/addform.php");
+        $(".modal-footer").hide();
+    });
+
+    $(".btn_edt").click(function() {
+        let id = $(this).data("id");
+
+        //$("#div_item").load("/Editform.php");
+        $("#staticBackdropLabel").text("Edit Item");
+        $(".modal-body").load(`/Form_Edit.php?id=${id}`);
+        $(".modal-footer").hide();
     });
 </script>
